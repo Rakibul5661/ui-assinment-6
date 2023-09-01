@@ -4,7 +4,7 @@ const loadData = () =>{
     .then(data => displayAi(data.data.tools))
 }
 
-// display data on card 
+//<-----display data on card------>// 
 
 const displayAi = (allAi) =>{
     const cardDiv = document.getElementById('ai-card');
@@ -42,7 +42,8 @@ const displayAi = (allAi) =>{
     });
 }
 
-// display modal
+//<----display modal------>//
+
  const loadDetails = (Id) =>{
      const url = `https://openapi.programming-hero.com/api/ai/tool/${Id}`
     fetch(url)
@@ -50,13 +51,15 @@ const displayAi = (allAi) =>{
     .then(data => displayDetails(data.data))
  }
 
+//<-----Modal detail----->//
+
  const displayDetails = (detail) =>{
     // console.log(detail.pricing)
     const detailsDiv = document.getElementById('details');
     detailsDiv.innerHTML = `
     <div style="background-color:#fef7f7; width:48%;" class="border border-danger-subtle p-4 rounded-4">
         <div class="">
-            <h6 class="fw-bold">${detail.description}</h6>
+            <h5 class="fw-bold pe-4">${detail.description}</h5>
             <div class="d-flex gap-2 justify-content-between my-4">
 
                 <div style="width:30%; background-color:white; font-size:14px;" class="text-center text-success rounded-4 fw-bold d-flex align-items-center p-2 justify-content-center">
@@ -72,13 +75,13 @@ const displayAi = (allAi) =>{
             </div>
             <div class="d-flex justify-content-between g-2">
                 <div class="w-50">
-                    <h6 class="fw-bold">Features</h6>
+                    <h5 class="fw-bold">Features</h5>
                     <ul id="features-list">
 
                     </ul>
                 </div>
                 <div style="width:46%;">
-                    <h6 class="fw-bold">Integrations</h6>
+                    <h5 class="fw-bold">Integrations</h5>
                     <p id="integration-no-data" class="d-none"></p>
                     <ul id="integrations-list">
                         
@@ -87,12 +90,13 @@ const displayAi = (allAi) =>{
             </div>
         </div>
     </div>
-    <div style="width:48%;" class="border-0">
-        <img src="" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+    <div style="width:48%;" class="border border-dark-subtle p-4 rounded-4">
+        <div>
+            <img src="${detail.image_link[0]}" class="card-img-top rounded-4" alt="...">
+        </div>
+        <div class="pt-4 text-center">
+            <h5 id="example-question"></h5>
+            <p id="example-answer"></p>
         </div>
     </div>
     `;
@@ -140,6 +144,21 @@ const displayAi = (allAi) =>{
                     integrationsList.appendChild(listItem);
             }
         }
+
+//------Modal Input Output Examples----->//
+
+    const EXQPlace = document.getElementById('example-question'); 
+    const EXAPlace = document.getElementById('example-answer');
+    const QAxamples = detail.input_output_examples;
+        if(QAxamples===null){
+            EXQPlace.innerText ='Can you give any example?';
+            EXAPlace.innerText ='No! Not Yet! Take a break!!!'
+        }
+        else{
+            EXQPlace.innerText =`${detail.input_output_examples[0].input}`;
+            EXAPlace.innerText =`${detail.input_output_examples[0].output}`;
+        }
+
 
  }
 
