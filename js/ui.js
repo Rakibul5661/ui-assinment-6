@@ -51,16 +51,24 @@ const displayAi = (allAi) =>{
  }
 
  const displayDetails = (detail) =>{
-    console.log(detail.pricing)
+    // console.log(detail.pricing)
     const detailsDiv = document.getElementById('details');
     detailsDiv.innerHTML = `
     <div style="background-color:#fef7f7; width:48%;" class="border border-danger-subtle p-4 rounded-4">
         <div class="">
             <h6 class="fw-bold">${detail.description}</h6>
             <div class="d-flex gap-2 justify-content-between my-4">
-                <div style="width:30%; background-color:white; font-size:14px;" class="text-center text-success rounded-4 fw-bold d-flex align-items-center p-2 justify-content-center"><p></p></div>
-                <div style="width:30%; background-color:white; font-size:14px;" class="text-center text-warning rounded-4 fw-bold d-flex align-items-center p-2 justify-content-center"><p></p></div>
-                <div style="width:30%; background-color:white; font-size:14px;" class="text-center text-danger rounded-4 fw-bold d-flex align-items-center p-2 justify-content-center"><p></p></div>
+
+                <div style="width:30%; background-color:white; font-size:14px;" class="text-center text-success rounded-4 fw-bold d-flex align-items-center p-2 justify-content-center">
+                    <p id="first-Plan"></p>
+                </div>
+                <div style="width:30%; background-color:white; font-size:14px;" class="text-center text-warning rounded-4 fw-bold d-flex align-items-center p-2 justify-content-center">
+                    <p id="second-Plan"></p>
+                </div>
+                <div style="width:30%; background-color:white; font-size:14px;" class="text-center text-danger rounded-4 fw-bold d-flex align-items-center p-2 justify-content-center">
+                    <p id="third-Plan"></p>
+                </div>
+
             </div>
             <div class="d-flex justify-content-between g-2">
                 <div class="w-50">
@@ -71,6 +79,7 @@ const displayAi = (allAi) =>{
                 </div>
                 <div style="width:46%;">
                     <h6 class="fw-bold">Integrations</h6>
+                    <p id="integration-no-data" class="d-none"></p>
                     <ul id="integrations-list">
                         
                     </ul>
@@ -87,24 +96,50 @@ const displayAi = (allAi) =>{
         </div>
     </div>
     `;
-    
+//<------ All Plan------>//
+
+    const firstPlan = document.getElementById('first-Plan');
+    const secondPlan = document.getElementById('second-Plan');
+    const thirdPlan = document.getElementById('third-Plan');
+    const allPlan = detail.pricing;
+        if(allPlan===null){
+            firstPlan.innerHTML = `Free of Cost/ <br>Basic`
+            secondPlan.innerHTML = `Free of Cost/ <br>Pro`
+            thirdPlan.innerHTML = `Free of Cost/ <br>Enterprise`
+        }
+        else{
+            firstPlan.innerHTML = `${allPlan[0].price} <br> ${allPlan[0].plan}`
+            secondPlan.innerHTML = `${allPlan[1].price} <br> ${allPlan[1].plan}`
+            thirdPlan.innerHTML = `${allPlan[2].price} <br> ${allPlan[2].plan}`
+        }
+
+//<------modal features List------->//
 
     const featuresList = document.getElementById('features-list');
     const featuresData = detail.features;
-    for(const featuresKey in featuresData){
-        const feature = featuresData[featuresKey].feature_name;
-        const listItem = document.createElement('li');
-        listItem.innerText = feature;
-        featuresList.appendChild(listItem) 
-    }
+        for(const featuresKey in featuresData){
+            const feature = featuresData[featuresKey].feature_name;
+            const listItem = document.createElement('li');
+            listItem.innerText = feature;
+            featuresList.appendChild(listItem) 
+        }
+
+//------ modal integrations List----->//
 
     const integrationsList = document.getElementById("integrations-list");
     const integrationsdata = detail.integrations;
-    for(const integration of integrationsdata){
-            const listItem = document.createElement("li");
-            listItem.innerText = integration;
-            integrationsList.appendChild(listItem);
-    }
+        if(integrationsdata===null){
+            const integrationNoData = document.getElementById('integration-no-data');
+            integrationNoData.classList.remove('d-none');
+            integrationNoData.innerText='No data Found';
+        }
+        else{
+            for(const integration of integrationsdata){
+                    const listItem = document.createElement("li");
+                    listItem.innerText = integration;
+                    integrationsList.appendChild(listItem);
+            }
+        }
 
  }
 
